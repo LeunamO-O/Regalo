@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crucigrama secreto</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+td {
+    width: 36px;
+    height: 36px;
+}
+
+input {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    border: 1px solid #444;
+}
+
+.empty {
+    background: #ccc;
+    border: none;
+}
+
+#final {
+    display: none;
+    margin-top: 20px;
+    font-size: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.cell {
+    position: relative;
+}
+
+.num {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    font-size: 10px;
+    color: #555;
+    pointer-events: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>🧩 Descubre el plan</h2>
+
+<table>
+<tr>
+<td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+<td class="cell">
+  <span class="num">1</span>
+  <input data-pos="M0">
+</td>
+</tr>
+<tr>
+<td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+<td><input data-pos="M1"></td>
+</tr>
+<tr>
+<td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+<td><input data-pos="M2"></td>
+</tr>
+<tr>
+<td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td>
+<td><input data-pos="M3"></td>
+</tr>
+
+<tr>
+<td class="cell">
+  <span class="num">2,3</span>
+  <input data-pos="R0">
+</td>
+<td class="cell">
+  <span class="num">6</span>
+  <input data-pos="R1">
+</td>
+<td><input data-pos="R2"></td>
+<td><input data-pos="R3"></td>
+<td><input data-pos="R4"></td>
+<td><input data-pos="R5"></td>
+<td><input data-pos="R6"></td>
+<td class="cell">
+  <span class="num">5</span>
+  <input data-pos="R7">
+</td>
+<td><input data-pos="R8"></td>
+</tr>
+
+<tr>
+<td><input data-pos="G1"></td>
+<td><input data-pos="G2"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="cell">
+  <span class="num">4</span>
+  <input data-pos="E0">
+</td>
+<td><input data-pos="E1"></td>
+<td><input data-pos="E2"></td>
+<td><input data-pos="E3"></td>
+<td><input data-pos="E4"></td>
+</tr>
+
+<tr>
+<td><input data-pos="G3"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td><input data-pos="T1"></td>
+<td class="empty"></td>
+</tr>
+
+<tr>
+<td><input data-pos="G4"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="empty"></td>
+<td class="cell">
+  <span class="num">7</span>
+  <input data-pos="T2">
+</td>
+<td><input data-pos="T3"></td>
+<td class="empty"></td>
+</tr>
+
+<tr>
+<td><input data-pos="G5"></td>
+</tr>
+<tr>
+<td><input data-pos="G6"></td>
+</tr>
+</table>
+
+<div id="final">
+💆‍♀️ <strong>Masaje relajante el tres de enero</strong> 💙
+</div>
+
+<h3>📝 Pistas</h3>
+
+<table style="margin: auto; background: white; border-radius: 10px; width: 400px;">
+<tr><td><strong>1.</strong> m. Operación consistente en presionar, frotar o golpear rítmicamente y con intensidad adecuada determinadas regiones del cuerpo, principalmente las masas musculares, con fines terapéuticos, deportivos, estéticos, etc.</td></tr>
+<tr><td><strong>2.</strong> Como debería ser el plan ideal, adj. Que relaja.</td></tr>
+<tr><td><strong>3.</strong> m. Obsequio que se hace voluntariamente o por costumbre.</td></tr>
+<tr><td><strong>4.</strong> El mes que empieza con buenos propósitos</td></tr>
+<tr><td><strong>5.</strong> Ni dos, ni cuatro…</td></tr>
+<tr><td><strong>6.</strong> Artículo determinado, masculino</td></tr>
+<tr><td><strong>7.</strong> tercera persona del singular del verbo ser</td></tr>
+</table>
+
+
+<script>
+const solution = {
+    M0:"M", M1:"A", M2:"S", M3:"A",                 // MASAJE
+    R0:"R", R1:"E", R2:"L", R3:"A", R4:"J", R5:"A", R6:"N", R7:"T", R8:"E", // RELAJANTE
+    G1:"E", G2:"L",                               // EL
+    G3:"G", G4:"A", G5:"L", G6:"O",               // REGALO
+    E0:"E", E1:"N", E2:"E", E3:"R", E4:"O",       // ENERO
+    T1:"R", T2:"E", T3:"S"                        // TRES / ES (S compartida)
+};
+
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", () => {
+        let ok = true;
+        document.querySelectorAll("input").forEach(i => {
+            const key = i.dataset.pos;
+            if (solution[key] && i.value.toUpperCase() !== solution[key]) {
+                ok = false;
+            }
+        });
+        if (ok) document.getElementById("final").style.display = "block";
+    });
+});
+</script>
+
+</body>
+</html>
